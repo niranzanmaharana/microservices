@@ -24,6 +24,10 @@ hs_err_pid*
 /.metadata/
 
 
+/*/.gitignore
+/*/maven-wrapper.jar
+/*/maven-wrapper.properties
+
 /*/.classpath
 /*/.project
 /*/.settings
