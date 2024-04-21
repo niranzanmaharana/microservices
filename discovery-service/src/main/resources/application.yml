@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: discovery-service
+
+server:
+  port: 8010
+
+eureka:
+  server:
+    maxThreadsForPeerReplication: 0
+  instance:
+    hostname: localhost
+    #preferIpAddress: true
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka

@@ -1,0 +1,12 @@
+server:
+  port: 0
+spring:
+  application:
+    name: account-service
+  devtools:
+    restart:
+      enabled: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8010/eureka
