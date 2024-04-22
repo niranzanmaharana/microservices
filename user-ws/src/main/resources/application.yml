@@ -8,9 +8,8 @@ spring:
       enabled: true
 eureka:
   instance:
-    #hostname: localhost
-    #instance-id: '${spring.application.name}:${instance-id: ${random.value}}'
-    #preferIpAddress: true
+    hostname: localhost
+    instance-id: '${spring.application.name}:${instance-id: ${random.value}}'
   client:
     serviceUrl:
       defaultZone: http://localhost:8010/eureka

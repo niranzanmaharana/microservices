@@ -1,3 +1,4 @@
+#api-gateway
 server:
   port: 8082
 spring:
@@ -8,11 +9,8 @@ spring:
       discovery:
         locator:
           enabled: true
-        lower-case-service-id: true
+          lower-case-service-id: true
 eureka:
-  #instance:
-    #preferIpAddress: true
-    #hostname: localhost
   client:
     serviceUrl:
       defaultZone: http://localhost:8010/eureka

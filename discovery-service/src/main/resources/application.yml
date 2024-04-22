@@ -1,3 +1,4 @@
+#discover-service
 spring:
   application:
     name: discovery-service
@@ -10,7 +11,6 @@ eureka:
     maxThreadsForPeerReplication: 0
   instance:
     hostname: localhost
-    #preferIpAddress: true
   client:
     register-with-eureka: false
     service-url:
