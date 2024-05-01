@@ -1,16 +1,23 @@
 #api-gateway
 server:
   port: 8082
-spring:
-  application:
-    name: api-gateway
-  cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8010/eureka
+spring:
+  application:
+    name: api-gateway # this microservice will be registered with eureka with this name
+  cloud:
+    gateway:
+      routes[0]:
+        id: user-status-check
+        uri: lb://user-service
+        predicates[0]: Path=/users/status/check
+        predicates[1]: Method=GET
+        filters[0]: RemoveRequestHeader=Cookie
+      discovery:
+        locator:
+          enabled: true # enables automatic routing with api gateway
+          lower-case-service-id: true # allows only lower case service name registered with discovery service
