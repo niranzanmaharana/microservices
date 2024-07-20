@@ -11,12 +11,6 @@ spring:
     name: api-gateway # this microservice will be registered with eureka with this name
   cloud:
     gateway:
-      routes[0]:
-        id: user-status-check
-        uri: lb://user-service
-        predicates[0]: Path=/users/status/check
-        predicates[1]: Method=GET
-        filters[0]: RemoveRequestHeader=Cookie
       discovery:
         locator:
           enabled: true # enables automatic routing with api gateway
