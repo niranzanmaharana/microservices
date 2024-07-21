@@ -29,13 +29,16 @@ public class WebSecurityConfig {
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         AuthenticationManager authenticationManager = getAuthenticationManager(http);
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, environment, authenticationManager);
+        authenticationFilter.setFilterProcessesUrl("/users/login");
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(requests ->
                         requests.requestMatchers("/users/**").permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                                 .anyRequest().authenticated()
-                ).addFilterBefore(new AuthenticationFilter(userService, environment, authenticationManager), UsernamePasswordAuthenticationFilter.class)
+                )
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationManager(authenticationManager);
 
         http.sessionManagement(configure -> configure.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -25,5 +25,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8010/eureka
+jwt:
+  secret: f8fe67fe-8086-4511-87bb-3be3fe138f3e-f8fe67fe-8086-4511-87bb-3be3fe138f3e
+  expiration: 3600
 jwtSecret: f8fe67fe-8086-4511-87bb-3be3fe138f3e-f8fe67fe-8086-4511-87bb-3be3fe138f3e
 jwtExpiration: 3600
+login:
+  url: /users/login

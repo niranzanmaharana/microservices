@@ -62,11 +62,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         UserDto user = userService.getUserDetailsByEmail(username);
 
         Instant now = Instant.now();
-        byte[] secretKeyBytes = Base64.getEncoder().encode(Objects.requireNonNull(environment.getProperty("jwtSecret")).getBytes());
+        byte[] secretKeyBytes = Base64.getEncoder().encode(Objects.requireNonNull(environment.getProperty("jwt.secret")).getBytes());
         SecretKey secretKey = new SecretKeySpec(secretKeyBytes, SignatureAlgorithm.HS512.getJcaName());
         String token = Jwts.builder()
                 .setSubject(user.getUserId())
-                .setExpiration(Date.from(now.plusSeconds(Long.parseLong(Objects.requireNonNull(environment.getProperty("jwtExpiration"))))))
+                .setExpiration(Date.from(now.plusSeconds(Long.parseLong(Objects.requireNonNull(environment.getProperty("jwt.expiration"))))))
                 .setIssuedAt(Date.from(now))
                 .signWith(secretKey, SignatureAlgorithm.HS512)
                 .compact();
