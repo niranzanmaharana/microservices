@@ -12,14 +12,38 @@ spring:
   cloud:
     gateway:
       routes[0]:
-        id: user-service-status
+        id: users-ws-status-check
         uri: lb://user-service
         predicates[0]: Path=/user-service/users/status
         predicates[1]: Method=GET
         predicates[2]: Header=Authorization, Bearer (.*)
         filters[0]: RemoveRequestHeader=Cookie
         filters[1]: RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        filters[2]: AuthorizationHeaderFilter
       routes[1]:
+        id: user-ws-user-creation
+        uri: lb://user-service
+        predicates[0]: Path=/user-service/users
+        predicates[1]: Method=POST
+        filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: RewritePath=/user-service/(?<segment>.*), /$\{segment}
+      routes[2]:
+        id: user-ws-user-creation
+        uri: lb://user-service
+        predicates[0]: Path=/user-service/users/login
+        predicates[1]: Method=POST
+        filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: RewritePath=/user-service/(?<segment>.*), /$\{segment}
+      routes[3]:
+        id: user-ws-user-get-update-delete
+        uri: lb://user-service
+        predicates[0]: Path=/user-service/users/**
+        predicates[1]: Method=GET,POST,UPDATE,DELETE
+        predicates[2]: Header=Authorization, Bearer (.*)
+        filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        filters[2]: AuthorizationHeaderFilter
+      routes[4]:
         id: user-h2-console
         uri: lb://user-service
         predicates[0]: Path=/user-service/h2-console
@@ -31,3 +55,5 @@ spring:
 #        locator:
 #          enabled: true # enables automatic routing with api gateway
 #          lower-case-service-id: true # allows only lower case service name registered with discovery service
+token:
+  secret: f8fe67fe-8086-4511-87bb-3be3fe138f3e-f8fe67fe-8086-4511-87bb-3be3fe138f3e
