@@ -11,7 +11,23 @@ spring:
     name: api-gateway # this microservice will be registered with eureka with this name
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true # enables automatic routing with api gateway
-          lower-case-service-id: true # allows only lower case service name registered with discovery service
+      routes[0]:
+        id: user-service-status
+        uri: lb://user-service
+        predicates[0]: Path=/user-service/users/status
+        predicates[1]: Method=GET
+        predicates[2]: Header=Authorization, Bearer (.*)
+        filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: RewritePath=/user-service/(?<segment>.*), /$\{segment}
+      routes[1]:
+        id: user-h2-console
+        uri: lb://user-service
+        predicates[0]: Path=/user-service/h2-console
+        predicates[1]: Method=GET
+        filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+#      discovery:
+#        locator:
+#          enabled: true # enables automatic routing with api gateway
+#          lower-case-service-id: true # allows only lower case service name registered with discovery service

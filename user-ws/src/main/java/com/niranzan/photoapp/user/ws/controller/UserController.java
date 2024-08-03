@@ -25,7 +25,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/status/check")
+    @GetMapping("/status")
     public String status() {
         return "Working on port: " + environment.getProperty("local.server.port");
     }

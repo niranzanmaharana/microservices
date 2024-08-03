@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,12 +29,11 @@ public class WebSecurityConfig {
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         AuthenticationManager authenticationManager = getAuthenticationManager(http);
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, environment, authenticationManager);
-        authenticationFilter.setFilterProcessesUrl("/users/login");
+        // authenticationFilter.setFilterProcessesUrl("/users/login");
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(requests ->
-                        requests.requestMatchers("/users/**").permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                        requests.requestMatchers(new AntPathRequestMatcher("/users/**"), new AntPathRequestMatcher("/h2-console/**")).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
