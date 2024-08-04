@@ -29,7 +29,7 @@ public class WebSecurityConfig {
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         AuthenticationManager authenticationManager = getAuthenticationManager(http);
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, environment, authenticationManager);
-        authenticationFilter.setFilterProcessesUrl("/users/login");
+        authenticationFilter.setFilterProcessesUrl(environment.getProperty("login.url"));
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(requests ->

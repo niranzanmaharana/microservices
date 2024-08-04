@@ -9,6 +9,8 @@ eureka:
 spring:
   application:
     name: api-gateway # this microservice will be registered with eureka with this name
+  config:
+    import: optional:configserver:http://localhost:8012
   cloud:
     gateway:
       routes[0]:
@@ -55,5 +57,3 @@ spring:
 #        locator:
 #          enabled: true # enables automatic routing with api gateway
 #          lower-case-service-id: true # allows only lower case service name registered with discovery service
-token:
-  secret: f8fe67fe-8086-4511-87bb-3be3fe138f3e-f8fe67fe-8086-4511-87bb-3be3fe138f3e

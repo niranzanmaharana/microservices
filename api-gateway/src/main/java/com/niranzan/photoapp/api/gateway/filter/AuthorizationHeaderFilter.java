@@ -53,7 +53,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     }
 
     public boolean isJwtValid(String jwtToken) {
-        String tokenSecret = environment.getProperty("token.secret");
+        String tokenSecret = environment.getProperty("jwt.secret");
         if (tokenSecret == null) {
             throw new IllegalStateException("Token secret must be provided.");
         }
