@@ -1,11 +1,11 @@
 package com.niranzan.photoapp.api.gateway.filter;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -54,7 +54,29 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         return response.setComplete();
     }
 
-    private boolean isJwtValid(String jwtToken) {
+    public boolean isJwtValid(String jwtToken) {
+        String tokenSecret = environment.getProperty("token.secret");
+        if (tokenSecret == null) {
+            throw new IllegalStateException("Token secret must be provided.");
+        }
+
+        SecretKey secretKey = Keys.hmacShaKeyFor(Base64.getEncoder().encode(tokenSecret.getBytes()));
+        JwtParser jwtParser = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build();
+
+        try {
+            Jws<Claims> jws = jwtParser.parseClaimsJws(jwtToken);
+            String subject = jws.getBody().getSubject();
+            System.out.println("Subject: " + subject);
+            return StringUtils.isNotBlank(subject);
+        } catch (Exception e) {
+            System.err.println("Invalid JWT: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /*private boolean isJwtValid(String jwtToken) {
         boolean isValidJwt = true;
         String tokenSecret = environment.getProperty("token.secret");
         assert tokenSecret != null;
@@ -65,15 +87,15 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
                 .build();
         String subject = null;
         try {
-            Jwt<Header, Claims> jwt = jwtParser.parse(jwtToken);
-            subject = jwt.getBody().getSubject();
+            Jws<Claims> jws = jwtParser.parseClaimsJws(jwtToken);
+            subject = jws.getBody().getSubject();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         System.out.println("Subject: " + subject);
         isValidJwt = StringUtils.isNotBlank(subject);
         return isValidJwt;
-    }
+    }*/
 
     public static class Config {
         // put configuration properties
