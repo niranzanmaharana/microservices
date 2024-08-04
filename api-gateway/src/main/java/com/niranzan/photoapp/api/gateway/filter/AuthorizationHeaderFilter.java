@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 @Component
@@ -75,27 +73,6 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             return false;
         }
     }
-
-    /*private boolean isJwtValid(String jwtToken) {
-        boolean isValidJwt = true;
-        String tokenSecret = environment.getProperty("token.secret");
-        assert tokenSecret != null;
-        byte[] secretKeyBytes = Base64.getEncoder().encode(tokenSecret.getBytes());
-        SecretKey secretKey = new SecretKeySpec(secretKeyBytes, SignatureAlgorithm.HS512.getJcaName());
-        JwtParser jwtParser = Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build();
-        String subject = null;
-        try {
-            Jws<Claims> jws = jwtParser.parseClaimsJws(jwtToken);
-            subject = jws.getBody().getSubject();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-        System.out.println("Subject: " + subject);
-        isValidJwt = StringUtils.isNotBlank(subject);
-        return isValidJwt;
-    }*/
 
     public static class Config {
         // put configuration properties
