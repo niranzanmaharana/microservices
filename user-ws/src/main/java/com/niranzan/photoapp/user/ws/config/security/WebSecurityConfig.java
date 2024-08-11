@@ -33,7 +33,10 @@ public class WebSecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(requests ->
-                        requests.requestMatchers(new AntPathRequestMatcher("/users/**"), new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                        requests.requestMatchers(new AntPathRequestMatcher("/users/**"),
+                                        new AntPathRequestMatcher("/h2-console/**"),
+                                        new AntPathRequestMatcher("/actuator/**"))
+                                .permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)

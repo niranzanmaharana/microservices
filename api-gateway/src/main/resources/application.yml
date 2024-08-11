@@ -10,7 +10,7 @@ spring:
   application:
     name: api-gateway # this microservice will be registered with eureka with this name
   config:
-    import: optional:configserver:http://localhost:8012
+    import: configserver:http://localhost:8888
   cloud:
     gateway:
       routes[0]:
@@ -52,8 +52,24 @@ spring:
         predicates[1]: Method=GET
         filters[0]: RemoveRequestHeader=Cookie
         filters[1]: RewritePath=/user-service/(?<segment>.*), /$\{segment}
+      routes[5]:
+        id: user-ws-actuator
+        uri: lb://user-service
+        predicates[0]: Path=/user-service/actuator/**
+        predicates[1]: Method=GET
+        filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: RewritePath=/user-service/(?<segment>.*), /$\{segment}
 
 #      discovery:
 #        locator:
 #          enabled: true # enables automatic routing with api gateway
 #          lower-case-service-id: true # allows only lower case service name registered with discovery service
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: gateway, health, mappings
