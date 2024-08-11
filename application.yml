@@ -1,0 +1,5 @@
+jwt:
+  secret: f8fe67fe-8086-4511-87bb-3be3fe138f3e-f8fe67fe-8086-4511-87bb-3be3fe138f3f
+  expiration: 3600
+login:
+  url: /users/login

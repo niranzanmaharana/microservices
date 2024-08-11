@@ -1,6 +1,9 @@
 spring:
   application:
     name: api-config-server
+  profiles:
+    active: native
+
   cloud:
     config:
       server:
@@ -10,6 +13,8 @@ spring:
           password: token
           clone-on-start: true
           default-label: master
+        native:
+          searchLocations: file:///D:/workspace/udemy/microservices
 
 server:
   port: 8012
