@@ -1,0 +1,3 @@
+testprop: user-ws
+login:
+  url: /users/login
