@@ -1,3 +1,13 @@
 testprop: user-ws
 login:
   url: /users/login
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/photo_app?serverTimeZone=UTC
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL8Dialect
