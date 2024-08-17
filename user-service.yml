@@ -6,7 +6,7 @@ spring:
     url: jdbc:mysql://localhost:3306/photo_app?serverTimeZone=UTC
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
-    password: root
+    password: '{cipher}AQCNCmMd/tFJIxGpqQ4MBab6WzhW3yVofU5OoLNXAA48mzVxRjFGhcz/J6Uvuuskcg8x58THMoQiIMM1Yr0FPc5gBNNU4g+WGFnvjuMS363Ds51iNA+UBBd6/cSON1e+X5As62E0nm97dgiHlTutGXjnHq7JcFMbElLj3L4P3zvpFFnCcv+3Tgxf3zWRhsNH+620KGpo6ojx00/ZfxxnAR5bbhdQdRxFRk0hBl8886H7LGENtOHEyDroaDeOvtEAaatcuoz8+JIqQs29Ce9z4jUuzlcjmGHc8lkdLXFYbH34hlERKG0ms3hhysKIo5hjZ252R9g9f/SEimmFUCf5jaXQZV6NvrsGzxV2ODpInqvv2INFcS7+2H1qBarlmybL+F4='
   jpa:
     hibernate:
       ddl-auto: update

@@ -1,0 +1,3 @@
+keytool -genkeypair -alias apiEncryptionKey -keyalg RSA -dname "CN=Niranjan Maharana,OU=Backend Development,O=maersk.net,L=GM,S=OD,C=IN" -keypass changeit -keystore apiEncryptionKey.jks -storepass changeit
+
+keytool -importkeystore -srckeystore apiEncryptionKey.jks -destkeystore apiEncryptionKey.jks -deststoretype pkcs12

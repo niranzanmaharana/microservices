@@ -1,6 +1,6 @@
 testprop: application-root
 jwt:
-  secret: f8fe67fe-8086-4511-87bb-3be3fe138f3e-f8fe67fe-8086-4511-87bb-3be3fe138f3f
+  secret: '{cipher}AQAoF99AmP9kR7nhEXUBPWZOkjoHKD38Ae1R/bcH6jQ9eWZi2woq5bSzUnds6rWwGAcDQvuRcPOSksd4OuTD27tWaHuYqG7Q066EzssQM1/Y9TE+INDDnq65MBQzt9xcb0XosdZQCZRjY6f6Rc+ywvoM2oSQA0ReMFid8XDiSrOrFKT9BUzl2Tb+xMIS4poSBYKARDwTwZp+63NRaAv5MmIMJXBYNPVxsCWwPK5ysp1uXFjvk18sc6HtX12lk/H8fdJ21TZVdNz2ake1R7SXCcJPEUY1f0Y2i+BzDnbRyPHrYFf3Yzfn96f5r5T5BO/WOZV/40wODsF2SCWXrM3PqoHgYrQKmhvOs5KkyR8lm72FaMtU3IZk/9RJdUvqYiOlt1qw90EG0vCaANkzqRxRmocQbAVgJHYFfhEsvsTrQ3R5+NYoYvDSefgCZuj1mLO/9uIFfnbWukgbRhLlci0GL7Yo'
   expiration: 3600
 login:
   url: /users/login
