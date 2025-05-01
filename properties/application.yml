@@ -4,3 +4,6 @@ jwt:
   expiration: 3600
 login:
   url: /users/login
+  
+albums:
+  url: http://album-ws/users/%s/albums

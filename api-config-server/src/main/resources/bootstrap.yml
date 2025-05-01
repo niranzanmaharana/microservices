@@ -1,6 +1,6 @@
 encrypt:
 #  key: nri49sdFjkdsSjiLk20kksdfzo
   key-store:
-    location: file:///D:/workspace/udemy/microservices//apiEncryptionKey.jks
+    location: file:///D:/workspace/udemy/microservices//keystore-file-generation//apiEncryptionKey.jks
     password: changeit
     alias: apiEncryptionKey

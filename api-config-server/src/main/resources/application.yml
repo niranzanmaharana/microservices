@@ -14,7 +14,7 @@ spring:
           clone-on-start: true
           default-label: master
         native:
-          searchLocations: file:///D:/workspace/udemy/microservices
+          searchLocations: file:///D:/workspace/udemy/microservices/properties
 
 server:
   port: 8888
