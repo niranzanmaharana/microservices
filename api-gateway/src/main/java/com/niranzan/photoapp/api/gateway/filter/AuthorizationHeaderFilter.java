@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -22,6 +23,7 @@ import javax.crypto.SecretKey;
 import java.util.Base64;
 
 @Component
+@Slf4j
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
     @Autowired
     private Environment environment;
@@ -66,10 +68,10 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         try {
             Jws<Claims> jws = jwtParser.parseClaimsJws(jwtToken);
             String subject = jws.getBody().getSubject();
-            System.out.println("Subject: " + subject);
+            log.info("Subject: {}", subject);
             return StringUtils.isNotBlank(subject);
         } catch (Exception e) {
-            System.err.println("Invalid JWT: " + e.getMessage());
+            log.error("Invalid JWT: {}", e.getMessage());
             return false;
         }
     }

@@ -26,7 +26,7 @@ public class WebSecurityConfig {
     private final Environment environment;
 
     @Bean
-    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         AuthenticationManager authenticationManager = getAuthenticationManager(http);
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, environment, authenticationManager);
         authenticationFilter.setFilterProcessesUrl(environment.getProperty("login.url"));

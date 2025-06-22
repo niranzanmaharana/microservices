@@ -7,3 +7,5 @@ login:
   
 albums:
   url: http://album-ws/users/%s/albums
+  exceptions:
+    not-found: Users albums are not found!

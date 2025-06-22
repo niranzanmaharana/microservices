@@ -1,23 +1,21 @@
 package com.niranzan.photoapp.user.ws.service;
 
+import com.niranzan.photoapp.user.ws.client.AlbumServiceClient;
 import com.niranzan.photoapp.user.ws.entity.UserEntity;
 import com.niranzan.photoapp.user.ws.exceptions.UserServiceException;
 import com.niranzan.photoapp.user.ws.model.AlbumResponseModel;
 import com.niranzan.photoapp.user.ws.model.UserDto;
 import com.niranzan.photoapp.user.ws.repository.UserRepository;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +24,11 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final RestTemplate restTemplate;
-    private final Environment environment;
+    private final AlbumServiceClient albumServiceClient;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -76,11 +74,12 @@ public class UserServiceImpl implements UserService {
             throw new UserServiceException("User not found with user id: " + userId);
         }
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
-        String albumsUrl = environment.getProperty("albums.url");
-        ResponseEntity<List<AlbumResponseModel>> response = restTemplate.exchange(String.format(albumsUrl, userId), HttpMethod.GET, null, new ParameterizedTypeReference<List<AlbumResponseModel>>() {
-        });
-        List<AlbumResponseModel> albumResponses = response.getBody();
-        userDto.setAlbums(albumResponses);
+        try {
+            List<AlbumResponseModel> albums = albumServiceClient.getAlbums(userId);
+            userDto.setAlbums(albums);
+        } catch (FeignException.FeignClientException exception) {
+            log.error("Exception while reading the albums from album-ws: {}", exception.getMessage());
+        }
         return userDto;
     }
 }
